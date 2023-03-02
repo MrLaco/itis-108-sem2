@@ -16,5 +16,5 @@ public class CreateUserRequestDto {
     private String email;
 
     @PastOrPresent(message = "Date shouldn't be in future")
-    private LocalDate birthDate;>
+    private LocalDate birthDate;
 }
