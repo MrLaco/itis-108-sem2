@@ -10,6 +10,7 @@ import ru.kpfu.itis.repository.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.*;
 import java.time.LocalDate;
+import java.time.format.*;
 import java.util.*;
 
 @RestController
@@ -27,16 +28,18 @@ public class UserController {
     public boolean createUser(
             @RequestParam Optional<String> name,
             @RequestParam Optional<String> email,
-            @RequestParam Optional<String> birthDate
+            @RequestParam Optional<LocalDate> birthDate,
+            @RequestParam Optional<Integer> experience
     ) {
 
-        if (name.isPresent() && email.isPresent() && birthDate.isPresent()) {
+        if (name.isPresent() && email.isPresent() && birthDate.isPresent() && experience.isPresent()) {
 
             User user = User
                     .builder()
                     .name(name.get())
                     .email(email.get())
-                    .birthDate(LocalDate.parse(birthDate.get()))
+                    .birthDate(birthDate.get())
+                    .experience(experience.get())
                     .build();
 
             userRepository.save(user);
@@ -65,13 +68,20 @@ public class UserController {
 
     // UPDATE
     @GetMapping("/update")
-    public boolean updateUser(@RequestParam Optional<Integer> id, Optional<String> email, Optional<String> name, Optional<String> birthDate) {
-        if (id.isPresent() && email.isPresent() && name.isPresent() && birthDate.isPresent()) {
+    public boolean updateUser(
+            @RequestParam Optional<Integer> id,
+            Optional<String> email,
+            Optional<String> name,
+            Optional<LocalDate> birthDate,
+            Optional<Integer> experience
+    ) {
+        if (id.isPresent() && email.isPresent() && name.isPresent() && birthDate.isPresent() && experience.isPresent()) {
             if (userRepository.existsById(id.get())) {
                 User oldUser = userRepository.findById(id.get()).get();
                 oldUser.setName(name.get());
                 oldUser.setEmail(email.get());
-                oldUser.setBirthDate(LocalDate.parse(birthDate.get()));
+                oldUser.setBirthDate(birthDate.get());
+                oldUser.setExperience(experience.get());
                 userRepository.save(oldUser);
 
                 return true;
@@ -102,15 +112,17 @@ public class UserController {
     @PostMapping("/")
     public CreateUserResponseDto createUser(@Valid @ModelAttribute("User") CreateUserRequestDto user) {
 
-        return CreateUserResponseDto.fromEntity(userRepository.save(
-                User.builder()
+
+        return CreateUserResponseDto.fromEntity(
+                userRepository.save(
+                    User.builder()
                         .name(user.getName().trim())
                         .email(user.getEmail().trim())
                         .birthDate(user.getBirthDate())
+                        .experience(user.getExperience())
                         .build()
-        ));
-
-        // почему-то валидация даты не проходит, если вводить без неё - всё ок, но записывается дата как null
+                )
+        );
     }
 
     @GetMapping("/")

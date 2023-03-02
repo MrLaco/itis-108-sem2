@@ -16,12 +16,15 @@ public class CreateUserResponseDto {
 
     private LocalDate birthDate;
 
+    private Integer experience;
+
     public static CreateUserResponseDto fromEntity(User user) {
         return CreateUserResponseDto.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .birthDate(user.getBirthDate())
+                .experience(user.getExperience())
                 .build();
     }
 }
