@@ -3,6 +3,8 @@ package ru.kpfu.itis.dto;
 import lombok.*;
 import ru.kpfu.itis.model.*;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 public class CreateUserResponseDto {
@@ -12,7 +14,7 @@ public class CreateUserResponseDto {
 
     private String email;
 
-    private String birthDate;
+    private LocalDate birthDate;
 
     public static CreateUserResponseDto fromEntity(User user) {
         return CreateUserResponseDto.builder()

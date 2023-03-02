@@ -2,11 +2,14 @@ package ru.kpfu.itis.controller;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.kpfu.itis.dto.*;
 import ru.kpfu.itis.model.*;
 import ru.kpfu.itis.repository.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -21,14 +24,19 @@ public class UserController {
 
     // CREATE: get
     @GetMapping("/create")
-    public boolean createUser(@RequestParam Optional<String> name, @RequestParam Optional<String> email) {
+    public boolean createUser(
+            @RequestParam Optional<String> name,
+            @RequestParam Optional<String> email,
+            @RequestParam Optional<String> birthDate
+    ) {
 
-        if (name.isPresent() && email.isPresent()) {
+        if (name.isPresent() && email.isPresent() && birthDate.isPresent()) {
 
             User user = User
                     .builder()
                     .name(name.get())
                     .email(email.get())
+                    .birthDate(LocalDate.parse(birthDate.get()))
                     .build();
 
             userRepository.save(user);
@@ -63,7 +71,7 @@ public class UserController {
                 User oldUser = userRepository.findById(id.get()).get();
                 oldUser.setName(name.get());
                 oldUser.setEmail(email.get());
-                oldUser.setBirthDate(birthDate.get());
+                oldUser.setBirthDate(LocalDate.parse(birthDate.get()));
                 userRepository.save(oldUser);
 
                 return true;
@@ -91,17 +99,24 @@ public class UserController {
     }
 
     // CREATE: post
-    @PostMapping("/user")
-    public CreateUserResponseDto createUser(@Valid @RequestBody CreateUserRequestDto user) {
+    @PostMapping("/")
+    public CreateUserResponseDto createUser(@Valid @ModelAttribute("User") CreateUserRequestDto user) {
 
         return CreateUserResponseDto.fromEntity(userRepository.save(
                 User.builder()
-                        .name(user.getName().trim()) // trim просто для того, чтоб показать, что тут
-                        .email(user.getEmail().trim()) // логику можно делать, но лучше такое в репозитории
-                        .birthDate(user.getBirthDate().trim())
+                        .name(user.getName().trim())
+                        .email(user.getEmail().trim())
+                        .birthDate(user.getBirthDate())
                         .build()
         ));
+
+        // почему-то валидация даты не проходит, если вводить без неё - всё ок, но записывается дата как null
+    }
+
+    @GetMapping("/")
+    public ModelAndView showCreateUserPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("index.html");
+        return modelAndView;
     }
 }
-
-// для создания/выдачи пользователя используется дто

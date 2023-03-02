@@ -3,6 +3,7 @@ package ru.kpfu.itis.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -17,5 +18,5 @@ public class User {
 
     private String email;
 
-    private String birthDate;
+    private LocalDate birthDate;
 }
