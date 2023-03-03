@@ -6,17 +6,17 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.kpfu.itis.dto.*;
 import ru.kpfu.itis.model.*;
 import ru.kpfu.itis.repository.*;
+import ru.kpfu.itis.service.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.*;
 import java.time.LocalDate;
-import java.time.format.*;
 import java.util.*;
 
 @RestController
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired // эта аннотация показывает, что мы внедрили зависимость в контроллер
     public UserController(UserRepository userRepository) {
@@ -52,17 +52,14 @@ public class UserController {
 
     // READ
     @GetMapping("/users/{id}")
-    public List<CreateUserResponseDto> getUser(@PathVariable(required = false) Optional<Integer> id) {
+    public List<UserResponseDto> getUser(@PathVariable(required = false) Optional<Integer> id) {
         if (id.isPresent()) {
             return userRepository.findAllById(List.of(id.get()))
                     .stream()
-                    .map(CreateUserResponseDto::fromEntity)
+                    .map(UserResponseDto::fromEntity)
                     .toList();
         } else {
-            return userRepository.findAll()
-                    .stream()
-                    .map(CreateUserResponseDto::fromEntity)
-                    .toList();
+            return userService.findAll();
         }
     }
 
@@ -110,10 +107,9 @@ public class UserController {
 
     // CREATE: post
     @PostMapping("/")
-    public CreateUserResponseDto createUser(@Valid @ModelAttribute("User") CreateUserRequestDto user) {
+    public UserResponseDto createUser(@Valid @ModelAttribute("User") UserRequestDto user) {
 
-
-        return CreateUserResponseDto.fromEntity(
+        return UserResponseDto.fromEntity(
                 userRepository.save(
                     User.builder()
                         .name(user.getName().trim())

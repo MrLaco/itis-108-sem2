@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-public class CreateUserResponseDto {
+public class UserResponseDto {
     private Integer id;
 
     private String name;
@@ -18,8 +18,8 @@ public class CreateUserResponseDto {
 
     private Integer experience;
 
-    public static CreateUserResponseDto fromEntity(User user) {
-        return CreateUserResponseDto.builder()
+    public static UserResponseDto fromEntity(User user) {
+        return UserResponseDto.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())

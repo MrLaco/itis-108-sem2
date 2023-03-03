@@ -7,7 +7,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Data
-public class CreateUserRequestDto {
+public class UserRequestDto {
     @NotBlank(message = "Name shouldn't be blank")
     private String name;
     @NotBlank(message = "Email shouldn't be blank")

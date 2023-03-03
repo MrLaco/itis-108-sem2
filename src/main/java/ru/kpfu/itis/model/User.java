@@ -21,4 +21,12 @@ public class User {
     private LocalDate birthDate;
 
     private Integer experience;
+
+    @OneToOne(mappedBy = "user")
+    private Passport passport;
+
+    // группа не будет доставаться просто при запросе юзера, это lazy
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
 }
