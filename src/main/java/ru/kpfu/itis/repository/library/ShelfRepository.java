@@ -7,9 +7,9 @@ import java.util.*;
 
 public interface ShelfRepository extends JpaRepository<Shelf, Integer> {
 
-    Shelf getShelfByDestination(String destination);
-    List<Shelf> getShelfByBooks(List<BookInstance> books);
+    Shelf findShelfByDestination(String destination);
+    Shelf findShelfByBooksIn(List<BookInstance> books);
 
-//    TODO:
-//    Shelf getShelfByBookName(BookInstance book);
+    @Query(value = "select * from books where books.name like ?1", nativeQuery = true)
+    Shelf findShelfByBookName(String bookName);
 }

@@ -3,7 +3,7 @@ package ru.kpfu.itis.model.library;
 import lombok.*;
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "books")
 @Data
 public class Book {
     @Id

@@ -19,6 +19,7 @@ public class UserResponseDto {
     private Integer experience;
 
     public static UserResponseDto fromEntity(User user) {
+
         return UserResponseDto.builder()
                 .id(user.getId())
                 .name(user.getName())

@@ -1,7 +1,6 @@
 package ru.kpfu.itis.model.library;
 
 import lombok.*;
-import ru.kpfu.itis.model.*;
 
 import javax.persistence.*;
 import java.util.*;
