@@ -14,15 +14,28 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public LibraryResponseDto getLibraryByAddress(String address) {
-        return LibraryResponseDto.fromLibrary(
-                libraryRepository.getLibraryByAddress(address)
-        );
+
+        LibraryResponseDto response = LibraryResponseDto.fromLibrary(
+                libraryRepository.getLibraryByAddress(address));
+
+        if (response == null) {
+            throw new NullPointerException("Library is null");
+        } else {
+            return response;
+        }
     }
 
     @Override
     public LibraryResponseDto getLibraryByName(String name) {
-        return LibraryResponseDto.fromLibrary(
+
+        LibraryResponseDto response = LibraryResponseDto.fromLibrary(
                 libraryRepository.getLibraryByName(name)
         );
+
+        if (response == null) {
+            throw new NullPointerException("Library is null");
+        } else {
+            return response;
+        }
     }
 }

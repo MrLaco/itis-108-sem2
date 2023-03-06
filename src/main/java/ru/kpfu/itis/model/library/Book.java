@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 @Entity(name = "books")
 @Data
+@Builder
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

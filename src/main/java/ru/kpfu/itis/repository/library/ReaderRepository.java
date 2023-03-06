@@ -9,5 +9,4 @@ public interface ReaderRepository extends JpaRepository<Reader, Integer> {
 
     Reader getReaderByPhoneNumber(String phoneNumber);
     Reader getReaderByFirstNameAndLastName(String firstName, String lastName);
-    Reader getReaderByAddress(String address);
 }

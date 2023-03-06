@@ -8,6 +8,7 @@ import java.util.*;
 
 @Entity(name = "readers")
 @Data
+@Builder
 public class Reader {
 
     @Id

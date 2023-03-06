@@ -7,6 +7,7 @@ import java.util.*;
 
 @Entity(name = "shelves")
 @Data
+@Builder
 public class Shelf {
 
     @Id
@@ -21,6 +22,6 @@ public class Shelf {
     private List<BookInstance> books;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "library_id")
+    @JoinColumn(name = "library")
     private Library library;
 }

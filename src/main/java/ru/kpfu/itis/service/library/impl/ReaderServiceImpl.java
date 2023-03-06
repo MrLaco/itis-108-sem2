@@ -28,12 +28,4 @@ public class ReaderServiceImpl implements ReaderService {
                 readerRepository.getReaderByFirstNameAndLastName(firstName, lastName)
         );
     }
-
-    @Override
-    public ReaderResponseDto getReaderByAddress(String address) {
-
-        return ReaderResponseDto.fromReader(
-                readerRepository.getReaderByAddress(address)
-        );
-    }
 }

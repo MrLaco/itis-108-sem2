@@ -6,5 +6,4 @@ public interface ReaderService {
 
     ReaderResponseDto getReaderByPhoneNumber(String phoneNumber);
     ReaderResponseDto getReaderByFirstNameAndLastName(String firstName, String lastName);
-    ReaderResponseDto getReaderByAddress(String address);
 }

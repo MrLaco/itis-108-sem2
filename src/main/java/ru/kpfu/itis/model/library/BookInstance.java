@@ -8,6 +8,7 @@ import java.util.*;
 @Entity
 @Table(name = "book_instances")
 @Data
+@Builder
 public class BookInstance {
 
     @Id
@@ -23,11 +24,11 @@ public class BookInstance {
     private Integer publicationYear;
 
     @OneToOne
-    @JoinColumn(name = "bookinstance_id")
+    @JoinColumn(name = "book")
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shelf_id")
+    @JoinColumn(name = "shelf")
     private Shelf shelf;
 
     @ManyToMany(mappedBy = "books")

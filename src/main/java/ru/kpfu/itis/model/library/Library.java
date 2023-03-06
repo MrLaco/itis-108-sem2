@@ -7,6 +7,7 @@ import java.util.*;
 
 @Entity(name = "libraries")
 @Data
+@Builder
 public class Library {
 
     @Id
